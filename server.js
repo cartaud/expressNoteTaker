@@ -34,7 +34,7 @@ app.post('/api/notes', (req, res) => {
         const newNote = {
             title,
             text,
-            note_id: uuid()
+            id: uuid()
         }
 
         fs.readFile('./db/db.json', 'utf8', (err, data) => {
@@ -56,9 +56,28 @@ app.post('/api/notes', (req, res) => {
         res.status(201).json(response);
     } else {
         res.status(500).json('Error adding note')
-    }
+    } 
+})
 
-    
+app.delete('/api/notes/:id', (req, res) => {
+    if (req.params.id) {
+        console.info(`${req.method} request received to delete a single note`)
+        const noteId = req.params.id;
+        for (let i=0; i<db.length;i++) {
+            if (noteId == db[i].id){
+                fs.readFile('./db/db.json', 'utf8', (err, data) => {
+                    if (err) throw err
+                    const oldData = JSON.parse(data);
+                    oldData.splice(i,1);
+                    const updatedData = oldData;
+                    fs.writeFile('./db/db.json', JSON.stringify(updatedData), (err) => {
+                        if (err) throw err
+                        console.log('note deleted')
+                    })
+                })
+            }
+        }
+    }
 })
 
 app.listen(PORT, () =>
