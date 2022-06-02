@@ -52,13 +52,15 @@ app.post('/api/notes', (req, res) => {
             status: 'success',
             body: newNote,
         }
-        console.log(response)
-        res.status(201).json(response);
+        console.log(response) //what is the difference between res.send, res.json, res.render? why not just always use send when sending data?
+        res.status(201).json(response); //we respond with json and then on line 44 of index we turn the json into json?
     } else {
         res.status(500).json('Error adding note')
     } 
 })
 
+//add a PATCH method to update the data? will we be learning about next()? 
+//or can I add a function on front-end that will add the note to list? 
 app.delete('/api/notes/:id', (req, res) => {
     if (req.params.id) {
         console.info(`${req.method} request received to delete a single note`)
