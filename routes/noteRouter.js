@@ -9,10 +9,8 @@ notes.get('/', (req, res) => {
     res.json(db)
 })
 
-notes.post('/', (req, res) => {
-    //receive a new note to save on the request body, add it to the `db.json` file,
-    //then return the new note to the client.
-    //find a way to give each note a unique id when it's saved
+//receive a new note to save on the request body, add it to the `db.json` file, then return the new note to the client.
+notes.post('/', (req, res) => {    
     const {title, text} = req.body;
 
     if (title && text) {
@@ -22,12 +20,12 @@ notes.post('/', (req, res) => {
             id: uuid()
         }
 
-        fs.readFile('../db/db.json', 'utf8', (err, data) => {
+        fs.readFile('./db/db.json', 'utf8', (err, data) => {
             if (err) throw err
             const oldData = JSON.parse(data);
             oldData.push(newNote);
             const updatedData = oldData;
-            fs.writeFile('../db/db.json', JSON.stringify(updatedData), (err) => {
+            fs.writeFile('./db/db.json', JSON.stringify(updatedData), (err) => {
                 if (err) throw err
                 console.log('new note added')
             })
