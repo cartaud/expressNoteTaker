@@ -31,7 +31,7 @@ const getNotes = () =>
     headers: {
       'Content-Type': 'application/json',
     },
-  }); //maybe need to add something here that adds new note to UI 
+  })
 
 const saveNote = (note) =>
   fetch('/api/notes', {
@@ -127,7 +127,6 @@ const renderNoteList = async (notes) => {
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
-  console.log('***',jsonNotes)
   let noteListItems = [];
 
   // Returns HTML element with or without a delete button
@@ -162,7 +161,6 @@ const renderNoteList = async (notes) => {
   if (jsonNotes.length === 0) {
     noteListItems.push(createLi('No saved Notes', false));
   }
-
   jsonNotes.forEach((note) => {
     const li = createLi(note.title);
     li.dataset.note = JSON.stringify(note);
